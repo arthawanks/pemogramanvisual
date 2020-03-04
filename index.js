@@ -3,7 +3,7 @@ const electron = require('electron');
 const {app, BrowserWindow, Menu, ipcMain} = electron;
 
 let todayWindow;
-let creteWindow;
+let createWindow;
 let listWindow;
 
 app.on("ready", () => {
@@ -28,7 +28,7 @@ app.on("ready", () => {
 
 const listWindowCreator = () =>
     {
-        listWindow = BrowserWindow
+        listWindow = new BrowserWindow
         ({
             webPreferences:{
                 nodeIntegration: true
@@ -45,7 +45,7 @@ const listWindowCreator = () =>
 
 const createWindowCreator = () =>
     {
-        createWindow = BrowserWindow
+        createWindow = new BrowserWindow
         ({
             webPreferences:{
                 nodeIntegration: true
@@ -59,6 +59,12 @@ const createWindowCreator = () =>
         createWindow.loadURL(`file://${__dirname}/create.html`);
         createWindow.on("closed", () => (createWindow = null));
     };
+
+
+
+ipcMain.on("appointment:create", (event, appointment) => {
+    console.log(appointment);
+});
 
 const menuTemplate = [{
     label: "File",
